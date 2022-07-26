@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Category, CategoryDocument } from './schemas/category.schema';
-import { Item, ItemDocument } from './schemas/item.schema';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { Category, CategoryDocument } from "./schemas/category.schema";
+import { Item, ItemDocument } from "./schemas/item.schema";
 
 @Injectable()
 export class ItemsService {
@@ -10,7 +10,7 @@ export class ItemsService {
     @InjectModel(Item.name) private readonly itemModel: Model<ItemDocument>,
     @InjectModel(Category.name)
     private readonly categoryModel: Model<CategoryDocument>,
-  ) {}
+  ) { }
 
   /**
    *
@@ -18,6 +18,7 @@ export class ItemsService {
    * @returns The created data
    */
   async createItem(data: Item) {
+    if (data.id === "0") return null;
     return this.itemModel.create(data);
   }
 
@@ -39,7 +40,7 @@ export class ItemsService {
       .find({
         mainCategory,
       })
-      .populate('mainCategory');
+      .populate("mainCategory");
   }
 
   /**
