@@ -5,16 +5,16 @@ import {
   Param,
   Post,
   UseInterceptors,
-} from '@nestjs/common';
-import { TransformInterceptor } from 'src/common/interceptors/transform.interceptor';
-import { Item } from './schemas/item.schema';
-import { ItemsService } from './items.service';
-import { ApiTags } from '@nestjs/swagger';
-import { ParseObjectIdPipe } from 'src/common/pipes/parse-objectid.pipe';
+} from "@nestjs/common";
+import { TransformInterceptor } from "src/common/interceptors/transform.interceptor";
+import { Item } from "./schemas/item.schema";
+import { ItemsService } from "./items.service";
+import { ApiTags } from "@nestjs/swagger";
+import { ParseObjectIdPipe } from "src/common/pipes/parse-objectid.pipe";
 
 @UseInterceptors(new TransformInterceptor())
-@Controller('items')
-@ApiTags('Items')
+@Controller("items")
+@ApiTags("Items")
 export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
@@ -28,15 +28,17 @@ export class ItemsController {
     return this.itemsService.findAllItems();
   }
 
-  @Get('/category/:mainCategoryId')
+  @Get("/category/:mainCategoryId")
   allItemsForCategory(
-    @Param('mainCategoryId', ParseObjectIdPipe) mainCategoryId: string,
+    @Param("mainCategoryId", ParseObjectIdPipe) mainCategoryId: string,
   ) {
     return this.itemsService.findAllItemsByMainCategory(mainCategoryId);
   }
 
-  @Get('/categories')
+  @Get("/categories")
   allMainCateogories() {
-    return this.itemsService.findAllCategories();
+    const categories = this.itemsService.findAllCategories();
+    console.log(categories);
+    return categories;
   }
 }
